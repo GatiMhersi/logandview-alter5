@@ -1,19 +1,28 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth'; // Mantén el useAuth para obtener el token de la API
 
 const AuthForm: React.FC = () => {
+  const { login: loginFromAuthHook } = useAuth();  // Usamos el login de useAuth para obtener el token de la API
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { login, error, loading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    await login({
-      username,
-      password,
-    });
+    try {
+      // Guarda el token también usando el hook de autenticación para obtener datos si es necesario
+      loginFromAuthHook({ username, password })
+      setLoading(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError('Login failed. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
