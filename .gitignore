@@ -10,6 +10,18 @@
 !.yarn/releases
 !.yarn/versions
 
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de dependencias
+node_modules/
+
+# Salidas de construcción
+.next/
+out/
+
 # testing
 /coverage
 
