@@ -1,12 +1,13 @@
-'use client'
-import React, { useEffect } from "react";
+'use client';
+import React, { useEffect, useState } from "react";
 import { fetchAndStoreProducts } from "../../../features/products/hook/useFetchAndStore"; // Ajusta la ruta según tu estructura
 import { useProductsStore } from "../../../features/products/store/productsStore"; // Ajusta la ruta según tu estructura
 import ProductCard from "../../../features/products/components/singleProduct"; // Ajusta la ruta según tu estructura
-
-
+import AddProductForm from "@/features/products/components/formNewProduct"; // Ajusta la ruta según tu estructura
 
 const ProductPage: React.FC = () => {
+  // Estado para manejar la visibilidad del modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Obtener los productos desde el store
   const products = useProductsStore((state) => state.products);
@@ -14,11 +15,37 @@ const ProductPage: React.FC = () => {
   // Ejecutar fetch al cargar la página
   useEffect(() => {
     fetchAndStoreProducts();
-  }, [products]);
+  }, []);
 
   return (
     <div className="container mx-auto p-4 bg-white">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">Listado de Productos</h1>
+      
+      {/* Botón para abrir el modal */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+      >
+        Agregar Nuevo Producto
+      </button>
+
+      {/* Modal con formulario para agregar producto */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="border-slate-500 border-2 rounded-lg shadow-lg w-96">
+            <AddProductForm />
+            {/* Botón para cerrar el modal */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Renderizado de productos */}
       {products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (

@@ -16,7 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, category, stock, price
 
       {/* Precio y botón */}
       <div className="flex flex-col items-end space-y-2">
-        <p className="text-lg font-semibold text-green-600">${price.toFixed(2)}</p>
+        <p className="text-lg font-semibold text-green-600">${price}</p>
         <button
           className="px-3 py-1 text-sm text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
           onClick={() => {}}
