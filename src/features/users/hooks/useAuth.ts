@@ -19,6 +19,7 @@ export const useAuth = () => {
       setIsAuthenticated(true);
       fetchUserDataFromToken(); // Llama al servicio para obtener los datos del usuario      
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Función que obtiene los datos del usuario con el token guardado
