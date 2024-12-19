@@ -51,6 +51,7 @@ const ProductPage: React.FC = () => {
           {products.map((product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               title={product.title}
               category={product.category}
               stock={product.stock}
