@@ -59,5 +59,6 @@ export const useAuth = () => {
     error,
     loading,
     isAuthenticated,  // Exponemos el estado de autenticación
+    fetchUserDataFromToken
   };
 };
