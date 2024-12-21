@@ -4,6 +4,7 @@ import { fetchAndStoreProducts } from "../../../features/products/hook/useFetchA
 import { useProductsStore } from "../../../features/products/store/productsStore"; // Ajusta la ruta según tu estructura
 import ProductCard from "../../../features/products/components/singleProduct"; // Ajusta la ruta según tu estructura
 import AddProductForm from "@/features/products/components/formNewProduct"; // Ajusta la ruta según tu estructura
+import SearchBar from "@/features/searchBar/components/searchBar";
 
 const ProductPage: React.FC = () => {
   // Estado para manejar la visibilidad del modal
@@ -45,8 +46,10 @@ const ProductPage: React.FC = () => {
         </div>
       )}
 
+      <SearchBar/>
+
       {/* Renderizado de productos */}
-      {products.length > 0 ? (
+      {products && products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
             <ProductCard

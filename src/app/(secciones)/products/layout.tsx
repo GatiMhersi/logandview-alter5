@@ -19,7 +19,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       await fetchUserDataFromToken();
     };
     fetchWithToken();
-  }, [fetchUserDataFromToken]);
+  }, []);
 
   // Mostrar un estado de carga mientras `userData` es null
   if (!userData) {
