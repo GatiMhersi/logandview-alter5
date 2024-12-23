@@ -5,10 +5,12 @@ import { useProductsStore } from "../../../features/products/store/productsStore
 import ProductCard from "../../../features/products/components/singleProduct"; // Ajusta la ruta según tu estructura
 import AddProductForm from "@/features/products/components/formNewProduct"; // Ajusta la ruta según tu estructura
 import SearchBar from "@/features/searchBar/components/searchBar";
+import SortProducts from "@/features/sortProducts/components/sortProducts";
 
 const ProductPage: React.FC = () => {
   // Estado para manejar la visibilidad del modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSortModalOpen, setIsSortModalOpen] = useState(false);
 
   // Obtener los productos desde el store
   const products = useProductsStore((state) => state.products);
@@ -47,6 +49,26 @@ const ProductPage: React.FC = () => {
       )}
 
       <SearchBar/>
+      <button
+          onClick={() => setIsSortModalOpen(true)}
+          className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+        >
+          Ordenar Productos
+        </button>
+       {/* Modal para ordenar productos */}
+       {isSortModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="relative bg-white border rounded-lg shadow-lg w-96 p-4">
+            <SortProducts onClose={() => setIsSortModalOpen(false)}/>
+            <button
+              onClick={() => setIsSortModalOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Renderizado de productos */}
       {products && products.length > 0 ? (
