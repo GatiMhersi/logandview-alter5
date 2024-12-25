@@ -11,13 +11,25 @@ export const loginUser = async (credentials: LoginCredentials): Promise<AuthResp
     });
 
     if (!response.ok) {
-      throw new Error('Invalid credentials or server error');
+      const errorData = await response.json();
+      const errorMessage =
+        errorData?.message || `HTTP ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
-    return data;  // Aquí devuelves la respuesta que contiene el token y la información del usuario
-  } catch (error) {
-    console.error('Login error:', error);
-    throw error;  // Lanza el error para que pueda ser manejado por el hook o componente
+    return data; // Devuelve la respuesta con el token y la información del usuario
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage =
+      error.message ;
+      throw new Error(errorMessage);
+    } else {
+      const errorMessage = 'An unexpected error occurred while logging in.';
+      throw new Error(errorMessage);
+    }
+
+    // Lanza un error más informativo
+    
   }
 };

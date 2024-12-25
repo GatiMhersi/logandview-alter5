@@ -1,24 +1,28 @@
-'use client'
+'use client';
 // pages/App.tsx
+
 import React from 'react';
-import { useAuthStore } from '@/features/users/store/authStore';  // Importa el store de Zustand
-import AuthForm from '@/features/users/components/auth';
-import UserProfile from '@/features/users/components/basicInfoAuthUser';
+import { useAuthStore } from '@/features/users/store/authStore';  // Estado global con Zustand
+import AuthForm from '@/features/users/components/auth';         // Formulario de autenticación
+import UserProfile from '@/features/users/components/basicInfoAuthUser'; // Perfil del usuario autenticado
 
+/**
+ * Componente principal de la aplicación. 
+ * Muestra un formulario de autenticación o el perfil del usuario dependiendo del estado de autenticación.
+ */
+const Login: React.FC = () => {
+  const { userData } = useAuthStore(); // Obtener los datos del usuario autenticado desde el store
 
-const App: React.FC = () => {
-  const { userData } = useAuthStore(); // Obtener authData del store global
-  
-
+  // Renderizado condicional basado en el estado de autenticación
   return (
-    <div className="App">
-      {!userData ? (
-        <AuthForm /> // Si no hay authData, mostrar el formulario de login
+    <div className="app-container">
+      {userData ? (
+        <UserProfile />
       ) : (
-        <UserProfile /> // Si hay authData, mostrar el perfil del usuario
+        <AuthForm />
       )}
     </div>
   );
 };
 
-export default App;
+export default Login;
