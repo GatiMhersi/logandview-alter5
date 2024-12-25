@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { searchProducts } from "../service/searchProducts"; // Importa el servicio
 import { useProductsStore } from "../../products/store/productsStore"; // Importa el store
+import { Order, SortBy } from "@/features/sortProducts/service/sortFetch";
 
 
 
@@ -16,13 +17,13 @@ export const useSearchProducts = () => {
    * Realiza la búsqueda de productos y actualiza el estado global.
    * @param query - Texto de búsqueda.
    */
-  const search = async (query: string) => {
+  const search = async (query: string, skip: number, limit: number , sortBy: SortBy, order: Order) => {
     setLoading(true);
     setError(null);
 
     try {
       // Llama al servicio
-      const response  = await searchProducts(query);
+      const response  = await searchProducts(query, skip, limit, sortBy, order );
 
       // Actualiza el estado global con los productos
       setProducts(response);

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { useFetchSortedProducts } from '../hook/useSortProducts'; // Hook personalizado
+import React from 'react';
+/* import { useFetchSortedProducts } from '../hook/useSortProducts'; // Hook personalizado
+import { usePaginationStore } from '@/features/pagination/store/storeSkip&Limit'; */
+import { useSortStore } from '../store/storeParamsSort';
 
 const SortProducts: React.FC<{ onClose: () => void }> = ({ onClose })  => {
   // Estado local para controlar las selecciones
-  const [sortBy, setSortBy] = useState<'title' | 'price'>('title');
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  /* const [sortBy, setSortBy] = useState<'title' | 'price'>('title');
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc'); */
+
+  /* const limitGlobal = usePaginationStore((state) => state.limit)
+  const skipGlobal = usePaginationStore((state) => state.skip) */
+  const { setOrder, setSortBy, sortBy, order} = useSortStore()
 
   // Ejecuta el hook cada vez que cambian las opciones
-  useFetchSortedProducts(sortBy, order);
+  /* useFetchSortedProducts(sortBy, order, skipGlobal, limitGlobal); */
 
   // Maneja el cambio del selector de sortBy
   const handleSortByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

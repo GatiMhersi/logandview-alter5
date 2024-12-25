@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { useSearchProducts } from "../hook/useSearchProducts";
+import { useSortStore } from "@/features/sortProducts/store/storeParamsSort";
+import { usePaginationStore } from "@/features/pagination/store/storeSkip&Limit";
 
-const SearchBar = () => {
+type SearchBarProps = {
+  setSearchQuery: (query: string) => void;
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({setSearchQuery }) => {
   const [inputValue, setInputValue] = useState(""); // Valor del input
   const [debouncedValue, setDebouncedValue] = useState(inputValue); // Valor con debounce
   const { search, loading, error } = useSearchProducts(); // Hook de búsqueda
+  const { limit, skip} = usePaginationStore()
+  const { sortBy, order} = useSortStore()
   
 
   // Manejo del cambio en el input y el debouncing
@@ -15,7 +23,7 @@ const SearchBar = () => {
   // Establecer el valor con debounce: retraso de 1 segundo
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedValue(inputValue); // Actualiza el valor con un retraso
+      setSearchQuery(inputValue); // Actualiza el valor con un retraso
     }, 100);
 
     return () => {
@@ -24,11 +32,11 @@ const SearchBar = () => {
   }, [inputValue]);
 
   // Llama al hook de búsqueda cuando el valor con debounce cambia
-  useEffect(() => {
+  /* useEffect(() => {
     if (debouncedValue) {
-      search(debouncedValue); // Llama al hook para buscar productos
+      search(debouncedValue, skip, limit, sortBy, order); // Llama al hook para buscar productos
     }
-  }, [debouncedValue]);
+  }, [debouncedValue, skip, limit, sortBy, order]); */
 
   return (
     <div className="relative w-full max-w-md mx-auto">

@@ -1,6 +1,6 @@
 import { Product } from "@/features/products/types";
 
-export type SortBy = 'title' | 'price' | 'rating'; // Agrega más opciones si es necesario.
+export type SortBy = 'title' | 'price' | 'rating' | 'id'; // Agrega más opciones si es necesario.
 export type Order = 'asc' | 'desc';
 
 export interface ProductResponse {

@@ -19,7 +19,9 @@ interface UseFetchSortedProductsResult {
  */
 export const useFetchSortedProducts = (
   sortBy: SortBy,
-  order: Order
+  order: Order,
+  skip: number,
+  limit: number
 ): UseFetchSortedProductsResult => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +35,7 @@ export const useFetchSortedProducts = (
       setError(null);
 
       try {
-        const sortedProducts = await fetchSortedProducts(sortBy, order);
+        const sortedProducts = await fetchSortedProducts(sortBy, order, skip, limit);
 
         // Guarda los productos en el estado global
         setProducts(sortedProducts);
@@ -45,7 +47,7 @@ export const useFetchSortedProducts = (
     };
 
     fetchProducts();
-  }, [sortBy, order, setProducts]);
+  }, [sortBy, order, skip, limit, setProducts]);
 
   // Devuelve el estado global, ya que los productos ahora están almacenados ahí
   const products = useProductsStore((state) => state.products);

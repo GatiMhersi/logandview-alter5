@@ -1,16 +1,20 @@
 import { Product } from "@/features/products/types";
+import { Order, SortBy } from "@/features/sortProducts/service/sortFetch";
+
 
 export const searchProducts = async (
   query: string,
   skip: number = 0,
-  limit: number = 10
+  limit: number = 10,
+  sortBy: SortBy = 'id',
+  order: Order = 'asc'
 ): Promise<Product[]> => {
   if (!query) {
     throw new Error("La consulta no puede estar vacía");
   }
 
   // Construir la URL con parámetros dinámicos
-  const url = `https://dummyjson.com/products/search?q=${encodeURIComponent(query)}&limit=${limit}&skip=${skip}`;
+  const url = `https://dummyjson.com/products/search?q=${encodeURIComponent(query)}&limit=${limit}&skip=${skip}&sortBy=${sortBy}&order=${order}`;
 
   try {
     const response = await fetch(url);
