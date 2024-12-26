@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
-import { useAuthStore } from "@/features/users/store/authStore"; // Importa el store de Zustand
-import { useAuth } from "@/features/users/hooks/useAuth";
+import { useAuthStore } from "@/components/users/store/authStore"; // Importa el store de Zustand
+import { useAuth } from "@/components/users/hooks/useAuth";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -182,7 +182,7 @@ const UserProfile: React.FC = () => {
             </section>
             {/* Botón fijo para redirigir a la página de autenticación */}
             <div className="fixed bottom-6 right-6">
-              <Link href="/auth">
+              <Link href="/">
                 <button className="px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
                   GO TO HOME
                 </button>

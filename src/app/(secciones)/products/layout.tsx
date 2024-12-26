@@ -1,9 +1,9 @@
 'use client'
 import React, { ReactNode, useEffect } from "react";
-import { useAuthStore } from "@/features/users/store/authStore"; // Importa el store de Zustand para acceder a los datos de autenticación
+import { useAuthStore } from "@/components/users/store/authStore"; // Importa el store de Zustand para acceder a los datos de autenticación
 import Image from "next/image";
-import { useAuth } from "@/features/users/hooks/useAuth";
-import { UserData } from "@/features/users/types";
+import { useAuth } from "@/components/users/hooks/useAuth";
+import { UserData } from "@/components/users/types";
 
 // Definición de los tipos de los props que recibirá el layout
 interface DashboardLayoutProps {
