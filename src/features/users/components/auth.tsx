@@ -3,21 +3,22 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
 const AuthForm: React.FC = () => {
-  const { login: loginFromAuthHook, error: errorHook, loading } = useAuth(); // Hook personalizado para autenticación
+  const {initializeAuth, login: loginFromAuthHook, error: errorHook, loading } = useAuth(); // Hook personalizado para autenticación
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!username || !password) {
       alert('Username and password are required.');
       return;
     }
-
+  
     await loginFromAuthHook({ username, password });
+    initializeAuth(); // Llama a initializeAuth después de iniciar sesión
   };
-
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-black">
       <div className="w-96 p-8 rounded-lg bg-gray-900 shadow-lg">

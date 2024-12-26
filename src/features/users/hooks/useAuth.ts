@@ -4,79 +4,70 @@ import { LoginCredentials, AuthResponse } from '../types';
 import { useAuthStore } from '../store/authStore'; // Estado global con Zustand
 import { fetchUserData } from '../services/getUserWithToken';
 
-
-/**
- * Hook personalizado para gestionar la autenticación de usuarios.
- * Incluye lógica para login, verificación de token y manejo de errores.
- */
 export const useAuth = () => {
-  // Estado local del hook
   const [authData, setAuthData] = useState<AuthResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  // Función del estado global (Zustand)
   const { login: saveToStore } = useAuthStore();
 
   /**
-   * Al cargar el hook, verifica si hay un token en el almacenamiento local.
-   * Si existe, intenta obtener los datos del usuario.
+   * Verifica el token y autentica automáticamente si es válido.
    */
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
-      setIsAuthenticated(true);
-      fetchUserDataFromToken();
+      initializeAuth(); // Auto-login si ya hay un token almacenado
     }
   }, []);
 
   /**
-   * Obtiene los datos del usuario utilizando el token almacenado.
-   * Guarda los datos en el estado global y local.
+   * Inicializa la autenticación verificando el token.
    */
-  const fetchUserDataFromToken = async () => {
+  const initializeAuth = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return; // Si no hay token, no hacer nada
+
     try {
-      const userData = await fetchUserData(); // Servicio para obtener datos del usuario
-      saveToStore(userData); // Guarda los datos del usuario en Zustand
-      setAuthData(userData); // Guarda los datos en el estado local
+      setLoading(true);
+      const userData = await fetchUserData(); // Obtiene los datos del usuario
+      saveToStore(userData); // Guarda los datos en Zustand
+      setAuthData(userData); // Actualiza el estado local
+      setIsAuthenticated(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        const errorMessage =
-        error.message ;
-        handleError(errorMessage);
+        handleError(error.message); // Usa el mensaje del error
       } else {
-        const errorMessage = 'An unexpected error occurred while logging in.';
-        handleError(errorMessage);
+        handleError('Error verifying token.'); // Mensaje genérico si el error no tiene mensaje
       }
+      setIsAuthenticated(false);
+      localStorage.removeItem('authToken'); // Limpia el token inválido
+    } finally {
+      setLoading(false);
     }
   };
 
   /**
    * Inicia sesión con las credenciales proporcionadas.
-   * @param credentials Credenciales del usuario (username, password)
    */
   const login = async (credentials: LoginCredentials) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await loginUser(credentials); // Servicio de autenticación
-      localStorage.setItem('authToken', response.accessToken); // Guarda el token en localStorage
-      setAuthData(response); // Actualiza los datos de autenticación
-      setIsAuthenticated(true); // Marca al usuario como autenticado
-      await fetchUserDataFromToken(); // Obtiene los datos del usuario
+      const response = await loginUser(credentials);
+      localStorage.setItem('authToken', response.accessToken);
+      setAuthData(response);
+      setIsAuthenticated(true);
+      await initializeAuth(); // Obtiene los datos del usuario tras iniciar sesión
     } catch (error: unknown) {
       if (error instanceof Error) {
-        const errorMessage =
-        error.message ;
-        handleError(errorMessage);
-        setIsAuthenticated(false);
+        handleError(error.message); // Usa el mensaje del error
       } else {
-        const errorMessage = 'An unexpected error occurred while logging in.';
-        handleError(errorMessage);
-        setIsAuthenticated(false);
+        handleError('Error during login.'); // Mensaje genérico si el error no tiene mensaje
       }
+      setIsAuthenticated(false);
     } finally {
       setLoading(false);
     }
@@ -84,21 +75,17 @@ export const useAuth = () => {
 
   /**
    * Maneja errores actualizando el estado de error.
-   * @param message Mensaje de error a mostrar
    */
   const handleError = (message: string) => {
     setError(message);
   };
 
-  /**
-   * Devuelve las funciones y estados del hook para usarlos en el componente.
-   */
   return {
     authData,
     login,
     error,
     loading,
     isAuthenticated,
-    fetchUserDataFromToken,
+    initializeAuth, // Permite inicializar manualmente si es necesario
   };
 };
