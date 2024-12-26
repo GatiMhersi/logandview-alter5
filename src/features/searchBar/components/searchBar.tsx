@@ -7,13 +7,12 @@ type SearchBarProps = {
   setSearchQuery: (query: string) => void;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({setSearchQuery }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ setSearchQuery }) => {
   const [inputValue, setInputValue] = useState(""); // Valor del input
   const [debouncedValue, setDebouncedValue] = useState(inputValue); // Valor con debounce
   const { search, loading, error } = useSearchProducts(); // Hook de búsqueda
-  const { limit, skip} = usePaginationStore()
-  const { sortBy, order} = useSortStore()
-  
+  const { limit, skip } = usePaginationStore();
+  const { sortBy, order } = useSortStore();
 
   // Manejo del cambio en el input y el debouncing
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,15 +30,8 @@ const SearchBar: React.FC<SearchBarProps> = ({setSearchQuery }) => {
     };
   }, [inputValue]);
 
-  // Llama al hook de búsqueda cuando el valor con debounce cambia
-  /* useEffect(() => {
-    if (debouncedValue) {
-      search(debouncedValue, skip, limit, sortBy, order); // Llama al hook para buscar productos
-    }
-  }, [debouncedValue, skip, limit, sortBy, order]); */
-
   return (
-    <div className="relative w-full max-w-md mx-auto">
+    <div className="relative w-full">
       <input
         type="text"
         className="w-full p-3 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"

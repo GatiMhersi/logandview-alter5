@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prueba Técnica - Desarrollo de Aplicación Web
 
-## Getting Started
+Este repositorio contiene la solución a la prueba técnica solicitada, desarrollada con **Next.js**. La aplicación web implementa funcionalidades clave como autenticación, gestión de productos, y consumo de APIs externas, cumpliendo con los requerimientos planteados.
 
-First, run the development server:
+## Objetivo
+Crear una aplicación web funcional que interactúe con una API externa para gestionar usuarios y productos, utilizando tecnologías modernas como React y Next.js.
 
+## Funcionalidades Principales
+- **Autenticación de usuario**: Login con token utilizando la API de DummyJSON.
+- **Gestión de productos**:
+  - Listar productos.
+  - Agregar nuevos productos.
+  - Eliminar productos.
+- **Visualización del usuario autenticado**: Mostrar el nombre o email en el header.
+
+### Requerimientos Adicionales Implementados
+- **Búsqueda**: Filtrar productos por nombre.
+- **Ordenamiento**: Ordenar productos por precio o nombre.
+- **Paginación**: Mostrar productos en páginas.
+
+---
+
+## Instalación y Configuración
+
+Sigue los pasos a continuación para ejecutar el proyecto localmente:
+
+### 1. Clonar el repositorio
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/GatiMhersi/logandview-alter5
+cd logandview-alter5
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Instalar dependencias
+Asegúrate de tener **Node.js** instalado. Luego, ejecuta:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Ejecutar el proyecto
+Inicia el servidor de desarrollo con:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La aplicación estará disponible en `http://localhost:3000`.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { fetchAndStoreProducts } from "../../../features/products/hook/useFetchAndStore"; // Ajusta la ruta según tu estructura
 import { useProductsStore } from "../../../features/products/store/productsStore"; // Ajusta la ruta según tu estructura
@@ -15,32 +15,30 @@ import { useSearchProducts } from "@/features/searchBar/hook/useSearchProducts";
 const ProductPage: React.FC = () => {
   // Estado para manejar la visibilidad del modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const { search } = useSearchProducts(); // Hook de búsqueda
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Obtener los productos desde el store
   const products = useProductsStore((state) => state.products);
-  const limitGlobal = usePaginationStore((state) => state.limit)
-  const skipGlobal = usePaginationStore((state) => state.skip)
-  const {sortBy, order} = useSortStore()
+  const limitGlobal = usePaginationStore((state) => state.limit);
+  const skipGlobal = usePaginationStore((state) => state.skip);
+  const { sortBy, order } = useSortStore();
 
   // Ejecutar fetch al cargar la página
   useEffect(() => {
-    if(!searchQuery){
+    if (!searchQuery) {
       fetchAndStoreProducts(skipGlobal, limitGlobal, sortBy, order);
     } else {
-      search(searchQuery, skipGlobal, limitGlobal, sortBy, order)
+      search(searchQuery, skipGlobal, limitGlobal, sortBy, order);
     }
-    
   }, [skipGlobal, limitGlobal, sortBy, order, searchQuery]);
-
-
 
   return (
     <div className="container mx-auto p-4 bg-white">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Listado de Productos</h1>
-      
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        Listado de Productos
+      </h1>
+
       {/* Botón para abrir el modal */}
       <button
         onClick={() => setIsModalOpen(true)}
@@ -64,31 +62,17 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
       )}
-      <Paginator/>
-      <LimitSelector/>
 
-      <SearchBar setSearchQuery={setSearchQuery}/>
-      <button
-          onClick={() => setIsSortModalOpen(true)}
-          className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-        >
-          Ordenar Productos
-        </button>
-       {/* Modal para ordenar productos */}
-       {isSortModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="relative bg-white border rounded-lg shadow-lg w-96 p-4">
-            <SortProducts onClose={() => setIsSortModalOpen(false)}/>
-            <button
-              onClick={() => setIsSortModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              X
-            </button>
-          </div>
-        </div>
-      )}
-
+      <div>
+      <SearchBar setSearchQuery={setSearchQuery} />
+      <div className="flex flex-row justify-center">
+      <SortProducts />
+      <LimitSelector />
+      </div>
+      
+      </div>
+      
+      <Paginator />
       {/* Renderizado de productos */}
       {products && products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
